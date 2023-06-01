@@ -21,5 +21,9 @@
 		"typescript": "^5.0.0",
 		"vite": "^4.3.0"
 	},
+	"dependencies": {
+		"chart.js": "<version>",
+		"svelte-chartjs": "<version>"
+	},
 	"type": "module"
 }
