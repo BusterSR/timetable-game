@@ -1,7 +1,9 @@
 <script>
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
 	import Chart from 'chart.js/auto';
-	import { Chart as SvelteChart, LineController, LineElement, LinearScale, PointElement, Title } from 'svelte-chartjs';
+	import { Chart as SvelteChart, Line, LinearScale, PointElement, Title } from 'svelte-chartjs';
+	import { LineController } from 'chart.js';
+
 
 	let chartData = {
 	  labels: [],
@@ -26,13 +28,8 @@
 	onMount(() => {
 	  const canvas = document.getElementById('lineChart');
 	  const context = canvas.getContext('2d');
-	  SvelteChart.register(Chart, [
-	    LineController,
-	    LineElement,
-	    PointElement,
-	    LinearScale,
-	    Title,
-	  ]);
+	  SvelteChart.register(Line, PointElement, LinearScale, Title);
+
 	  chartInstance = new Chart(context, {
 	    type: 'line',
 	    data: chartData,
