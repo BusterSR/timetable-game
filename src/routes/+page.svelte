@@ -1,8 +1,8 @@
 <script>
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
 	import Chart from 'chart.js/auto';
-	import { Chart as SvelteChart, Line, Title } from 'svelte-chartjs';
-	import { LineController, PointElement, LinearScale } from 'chart.js';
+	import { Chart as SvelteChart, Line, LinearScale } from 'svelte-chartjs';
+	import { LineController, PointElement } from 'chart.js';
 
 
 
@@ -30,7 +30,7 @@
 	onMount(() => {
 	  const canvas = document.getElementById('lineChart');
 	  const context = canvas.getContext('2d');
-	  SvelteChart.register(Line, PointElement, LinearScale, Title);
+	  SvelteChart.register(Line, PointElement, LinearScale);
 
 	  chartInstance = new Chart(context, {
 	    type: 'line',
