@@ -1,4 +1,57 @@
 <script>
+	import { onMount, afterUpdate, onDestroy } from 'svelte';
+	import Chart from 'chart.js/auto';
+	import { Chart as SvelteChart, LineController, LineElement, LinearScale, PointElement, Title } from 'svelte-chartjs';
+	
+	let chartData = {
+	  labels: [],
+	  datasets: [
+	    {
+	      label: 'Questions Answered',
+	      data: [],
+	      fill: false,
+	      borderColor: 'rgb(75, 192, 192)',
+	      tension: 0.1,
+	    },
+	  ],
+	};
+
+	function updateChartData() {
+	  chartData.labels = xValues;
+	  chartData.datasets[0].data = yValues;
+	}
+	
+	let chartInstance;
+
+	onMount(() => {
+	  const canvas = document.getElementById('lineChart');
+	  const context = canvas.getContext('2d');
+	  SvelteChart.register(Chart, [
+	    LineController,
+	    LineElement,
+	    PointElement,
+	    LinearScale,
+	    Title,
+	  ]);
+	  chartInstance = new Chart(context, {
+	    type: 'line',
+	    data: chartData,
+	    options: {
+	      responsive: true,
+	    },
+	  });
+	});
+
+	afterUpdate(() => {
+	  updateChartData();
+	  chartInstance.update();
+	});
+
+	onDestroy(() => {
+	  chartInstance.destroy();
+	});
+
+
 	import Timer from './Timer.svelte';
 	let open = false;
 	let ended = false;
@@ -150,6 +203,8 @@
 	<title>Timetable Game</title>
 </svelte:head>
 <div>
+	
+	
 	{#if ended}
 		<p>The game has ended! You got <span class="correct">{correct}</span> questions correct and <span class="incorrect">{incorrect}</span> questions incorrect!</p>
 		<p>You got {percentage}% of questions correct!</p>
@@ -157,47 +212,6 @@
 		<p>{xValues}</p>
 		<p>{yValues}</p>
 	
-		<script>
-		  import { onMount } from 'svelte';
-		  import Chart from 'chart.js/auto';
-		  import { Chart as SvelteChart, LineController, LineElement, LinearScale, PointElement, Title } from 'svelte-chartjs';
-
-		  // Define your chart data
-		  const chartData = {
-		    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-		    datasets: [
-		      {
-			label: 'Data',
-			data: [65, 59, 80, 81, 56, 55],
-			fill: false,
-			borderColor: 'rgb(75, 192, 192)',
-			tension: 0.1,
-		      },
-		    ],
-		  };
-
-		  let chartInstance;
-
-		  // Create the chart when the component mounts
-		  onMount(() => {
-		    const canvas = document.getElementById('lineChart');
-		    const context = canvas.getContext('2d');
-		    SvelteChart.register(Chart, [
-		      LineController,
-		      LineElement,
-		      PointElement,
-		      LinearScale,
-		      Title,
-		    ]);
-		    chartInstance = new Chart(context, {
-		      type: 'line',
-		      data: chartData,
-		      options: {
-			responsive: true,
-		      },
-		    });
-		  });
-		</script>
 
 		<canvas id="lineChart"></canvas>
 	{/if}
