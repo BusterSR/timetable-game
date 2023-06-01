@@ -1,7 +1,7 @@
 <script>
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
 	import Chart from 'chart.js/auto';
-	import { Chart as SvelteChart, LineElement, LinearScale, PointElement, Title } from 'svelte-chartjs';
+	import { Chart as SvelteChart, LineController, LineElement, LinearScale, PointElement, Title } from 'svelte-chartjs';
 
 	let chartData = {
 	  labels: [],
